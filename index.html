@@ -1,67 +1,62 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form nhập dữ liệu</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh sách phòng</title>
+<link rel="stylesheet" href="indexStyle.css">
 </head>
+
 <body>
-    <div class="container">
-        
-        <div class="content">
-            <div class="section-title">
-                Quản lý phòng
-            </div>
 
-            <div class="button-group">
-                <button class="btn-show" onclick="showRooms()">Hiển Thị</button>
-                <button class="btn-add" onclick="addNewRoom()">
-                    <span class="icon">➕</span>
-                    Thêm mới phòng
-                </button>
-            </div>
-
-            <div class="divider"></div>
-
-            <table class="form-table">
-                <thead>
-                    <tr>
-                        <th>Tên phòng</th>
-                        <th>Mô tả phòng</th>
-                        <th>Giá</th>
-                        <th>Chọn hình ảnh</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <input type="text" id="roomName" class="form-input" placeholder="Tên phòng">
-                        </td>
-                        <td>
-                            <input type="text" id="roomDesc" class="form-input" placeholder="Mô tả phòng">
-                        </td>
-                        <td>
-                            <input type="number" id="roomPrice" class="form-input" placeholder="Giá phòng">
-                        </td>
-                        <td>
-                            <button class="image-select-btn" onclick="document.getElementById('imageInput').click()">
-                                <span class="icon">🖼️</span>
-                                Chọn hình ảnh
-                            </button>
-                            <input type="file" id="imageInput" class="image-input" accept="image/*">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Thêm khu vực hiển thị danh sách phòng -->
-        <div id="roomListContainer" class="content" style="margin-top: 30px; display: none; border-top: 2px solid #eee; padding-top: 20px;">
-            <div class="section-title">Danh sách phòng hiện có</div>
-            <div id="roomList"></div>
-        </div>
+<div class="container">
+    <div class="title">Book đi nào. Mãi bên nhau bạn nhé!</div>
+    <div class="subtitle">
+        Top nơi ở sang chảnh đón hè đã sẵn sàng. Book đi ngay nè.
     </div>
-    <script src="script.js"></script>
+
+    <div id="roomList" class="room-grid"></div>
+</div>
+
+<script>
+const API_URL = 'https://69a7887c2cd1d0552690df12.mockapi.io/api/v1/rooms';
+
+async function renderRooms() {
+    const roomList = document.getElementById("roomList");
+    roomList.innerHTML = "<p>Đang tải danh sách phòng...</p>";
+
+    try {
+        const response = await fetch(API_URL);
+        const rooms = await response.json();
+
+        if (!rooms.length) {
+            roomList.innerHTML = "<p>Hiện tại chưa có phòng nào trống.</p>";
+            return;
+        }
+
+        roomList.innerHTML = rooms.map(room => `
+            <div class="card">
+                <img src="${room.image && room.image.startsWith('http') ? room.image : 'https://via.placeholder.com/400x300'}" onerror="this.src='https://via.placeholder.com/400x300'">
+                <div class="heart">❤️</div>
+                <div class="card-body">
+                    <div>
+                        <span class="stars">★★★★★</span>
+                        <span class="review">25 Review</span>
+                    </div>
+                    <div class="card-title">${room.name}</div>
+                    <div class="card-desc">${room.description}</div>
+                    <div class="price-label">Giá tiền</div>
+                    <div class="price">${Number(room.price).toLocaleString('vi-VN')} đ</div>
+                    <button class="book-btn">Đặt Ngay ⚡</button>
+                </div>
+            </div>`).join('');
+    } catch (error) {
+        roomList.innerHTML = "<p style='color: red;'>Không thể kết nối với máy chủ!</p>";
+    }
+}
+
+renderRooms();
+</script>
+
 </body>
 </html>
