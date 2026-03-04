@@ -1,6 +1,6 @@
 const API_URL = 'https://69a7887c2cd1d0552690df12.mockapi.io/api/v1/rooms';
 
-
+// Hàm lấy các phần tử DOM để đảm bảo chúng tồn tại khi gọi hàm
 const getDom = () => ({
     name: document.getElementById('roomName'),
     desc: document.getElementById('roomDesc'),

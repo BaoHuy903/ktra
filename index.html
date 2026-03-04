@@ -36,13 +36,13 @@
                 <tbody>
                     <tr>
                         <td>
-                            <input type="text" class="form-input" placeholder="Tên phòng">
+                            <input type="text" id="roomName" class="form-input" placeholder="Tên phòng">
                         </td>
                         <td>
-                            <input type="text" class="form-input" placeholder="Mô tả phòng">
+                            <input type="text" id="roomDesc" class="form-input" placeholder="Mô tả phòng">
                         </td>
                         <td>
-                            <input type="number" class="form-input" placeholder="Giá phòng">
+                            <input type="number" id="roomPrice" class="form-input" placeholder="Giá phòng">
                         </td>
                         <td>
                             <button class="image-select-btn" onclick="document.getElementById('imageInput').click()">
@@ -57,7 +57,7 @@
         </div>
 
         <!-- Thêm khu vực hiển thị danh sách phòng -->
-        <div id="roomListContainer" class="content" style="margin-top: 30px; display: none;">
+        <div id="roomListContainer" class="content" style="margin-top: 30px; display: none; border-top: 2px solid #eee; padding-top: 20px;">
             <div class="section-title">Danh sách phòng hiện có</div>
             <div id="roomList"></div>
         </div>
