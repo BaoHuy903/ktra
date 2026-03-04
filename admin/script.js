@@ -1,6 +1,6 @@
 const API_URL = 'https://69a7887c2cd1d0552690df12.mockapi.io/api/v1/rooms';
 
-
+//Trả về object chứa các input và khu vực hiển thị
 const getDom = () => ({
     name: document.getElementById('roomName'),
     desc: document.getElementById('roomDesc'),
@@ -9,32 +9,48 @@ const getDom = () => ({
     list: document.getElementById('roomList'),
     container: document.getElementById('roomListContainer')
 });
-
+//lấy dữ liệu 
 async function showRooms() {
     const dom = getDom();
     dom.container.style.display = 'block';
-    dom.list.innerHTML = 'Đang tải dữ liệu...';
-
+    dom.list.innerHTML = 'Đang tải dữ liệu...';//hiển thị đang loadign
     try {
-        const response = await fetch(API_URL);
-        const rooms = await response.json();
+    const response = await fetch(API_URL);
+    const rooms = await response.json();// chuyển DL sang json
+    let rows = "";
 
-        dom.list.innerHTML = rooms.length ? `
-            <table class="form-table">
-                <thead><tr><th>ID</th><th>Tên</th><th>Mô tả</th><th>Giá</th></tr></thead>
-                <tbody>
-                    ${rooms.map(r => `
-                        <tr>
-                            <td>${r.id}</td>
-                            <td>${r.name}</td>
-                            <td>${r.description}</td>
-                            <td><b>${Number(r.price).toLocaleString()} VNĐ</b></td>
-                        </tr>`).join('')}
-                </tbody>
-            </table>` : 'Danh sách trống.';
-    } catch (error) {
-        dom.list.innerHTML = '<p style="color: red;">Lỗi kết nối API!</p>';
+    //Tạo từng dòng cho mỗi phòng
+    for (let room of rooms) {
+        rows += `
+            <tr>
+                <td>${room.id}</td>
+                <td>${room.name}</td>
+                <td>${room.description}</td>
+                <td><b>${Number(room.price).toLocaleString()} VNĐ</b></td>
+            </tr>
+        `;
     }
+
+    //Hiển thị bảng
+    dom.list.innerHTML = `
+        <table class="form-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Mô tả</th>
+                    <th>Giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+    `;
+
+} catch (error) {
+    dom.list.innerHTML = '<p style="color:red;">Lỗi kết nối API!</p>';
+}
 }
 
 async function addNewRoom() {
