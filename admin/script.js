@@ -7,13 +7,13 @@ function addNewRoom() {
     const imageInput = document.getElementById('imageInput');
     const imageFile = imageInput.files[0];
 
-    // Kiểm tra dữ liệu đầu vào cơ bản
+    // Kiểm tra dữ liệu vào
     if (!roomName || !roomDesc || !roomPrice) {
         alert('Vui lòng điền đầy đủ thông tin phòng!');
         return;
     }
 
-    // Tạo đối tượng dữ liệu (giả lập để log ra console)
+    // Tạo đối tượng dữ liệu
     const roomData = {
         name: roomName,
         description: roomDesc,
@@ -24,7 +24,8 @@ function addNewRoom() {
     console.log('Dữ liệu phòng đã thu thập:', roomData);
     alert(`Đã thêm phòng "${roomName}" thành công! (Kiểm tra Console để xem chi tiết)`);
 
-    // Reset form sau khi thêm thành công
+    // Reset lại khi thêm done
+
     inputs.forEach(input => input.value = '');
     imageInput.value = '';
 }
