@@ -12,6 +12,11 @@ function save() {
         return;
     }
 
+    if (quantity <= 0 || price < 0) {
+        alert("Số lượng và đơn giá không hợp lệ!");
+        return;
+    }
+
     const amount = quantity * price;
     const discount = quantity > 10 ? amount * 0.1 : 0;
     const total = amount - discount;
